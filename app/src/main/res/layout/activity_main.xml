@@ -7,199 +7,230 @@
 
     </data>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:orientation="vertical">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/mainCoordinatorLayout"
+        <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainCoordinatorLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                tools:context=".ui.MainActivity">
+
+                <EditText
+                    android:id="@+id/file_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_shape"
+                    android:gravity="top|start"
+                    android:hint="encrypted file name with ext"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/key_char_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/file_name" />
+
+                <EditText
+                    android:id="@+id/key_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/round_shape"
+                    android:gravity="top|start"
+                    android:hint="Key"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toStartOf="@id/generate_key"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/key_char_count" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/generate_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:text="Generate"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/key_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/key_text" />
+
+                <TextView
+                    android:id="@+id/input_char_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/key_text" />
+
+
+                <EditText
+                    android:id="@+id/input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_shape"
+                    android:gravity="top|start"
+                    android:hint="input"
+                    android:inputType="textMultiLine"
+                    android:minLines="8"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/input_char_count" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/encrypt_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:text="Encrypt"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/decrypt_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@+id/clear_button"
+                    app:layout_constraintTop_toBottomOf="@id/input_text" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/clear_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:text="Clear"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/encrypt_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/input_text" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/decrypt_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:text="Decrypt"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/encrypt_button"
+                    app:layout_constraintTop_toBottomOf="@id/input_text" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/decrypt_asset_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:text="Decrypt from assets"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clear_button" />
+
+                <TextView
+                    android:id="@+id/output_char_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/decrypt_asset_button" />
+
+                <EditText
+                    android:id="@+id/output_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/round_shape"
+                    android:enabled="false"
+                    android:gravity="top|start"
+                    android:hint="output"
+                    android:inputType="textMultiLine"
+                    android:minLines="8"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/output_char_count" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/copyOutput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:text="Copy"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/output_text" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_down"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp"
-            tools:context=".ui.MainActivity">
+            android:layout_gravity="bottom|start"
+            android:layout_margin="16dp"
+            android:src="@android:drawable/arrow_down_float"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-            <EditText
-                android:id="@+id/file_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_shape"
-                android:gravity="top|start"
-                android:hint="encrypted file name with ext"
-                android:inputType="text"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
 
-            <TextView
-                android:id="@+id/key_char_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/file_name" />
-
-            <EditText
-                android:id="@+id/key_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round_shape"
-                android:gravity="top|start"
-                android:hint="Key"
-                android:inputType="textMultiLine"
-                android:minLines="3"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@id/generate_key"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/key_char_count" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/generate_key"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginStart="4dp"
-                android:text="Generate"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/key_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/key_text" />
-
-            <TextView
-                android:id="@+id/input_char_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/key_text" />
-
-
-            <EditText
-                android:id="@+id/input_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_shape"
-                android:gravity="top|start"
-                android:hint="input"
-                android:inputType="textMultiLine"
-                android:minLines="8"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/input_char_count" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/encrypt_button"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_margin="8dp"
-                android:text="Encrypt"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/decrypt_button"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@+id/clear_button"
-                app:layout_constraintTop_toBottomOf="@id/input_text" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/clear_button"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_margin="8dp"
-                android:text="Clear"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/encrypt_button"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/input_text" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/decrypt_button"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_margin="8dp"
-                android:text="Decrypt"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/encrypt_button"
-                app:layout_constraintTop_toBottomOf="@id/input_text" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/decrypt_asset_button"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_margin="8dp"
-                android:text="Decrypt from assets"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clear_button" />
-
-            <TextView
-                android:id="@+id/output_char_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/decrypt_asset_button" />
-
-            <EditText
-                android:id="@+id/output_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round_shape"
-                android:enabled="false"
-                android:gravity="top|start"
-                android:hint="output"
-                android:inputType="textMultiLine"
-                android:minLines="8"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/output_char_count" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/copyOutput"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginStart="4dp"
-                android:text="Copy"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/output_text" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+            android:id="@+id/fab_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@android:drawable/arrow_up_float"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </FrameLayout>
 
 </layout>

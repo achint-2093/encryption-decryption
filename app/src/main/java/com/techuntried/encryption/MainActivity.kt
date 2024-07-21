@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -26,6 +27,14 @@ class MainActivity : AppCompatActivity() {
         )
 
         setOnClickListener()
+
+        binding.scrollView.setOnScrollChangeListener { v, _, scrollY, oldScrollX, oldScrollY ->
+            val totalHeight = binding.scrollView.getChildAt(0).height - binding.scrollView.height
+            binding.fabUp.visibility = if (scrollY > 100) View.VISIBLE else View.GONE
+            binding.fabDown.visibility =
+                if (scrollY < totalHeight - 100) View.VISIBLE else View.GONE
+        }
+
         binding.inputText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // No need to implement this method
@@ -75,6 +84,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOnClickListener() {
+        binding.fabUp.setOnClickListener {
+            binding.scrollView.smoothScrollTo(0, 0)
+        }
+        binding.fabDown.setOnClickListener {
+            binding.scrollView.smoothScrollTo(0, binding.scrollView.getChildAt(0).height)
+        }
         binding.clearButton.setOnClickListener {
             binding.inputText.setText("")
             binding.outputText.setText("")
