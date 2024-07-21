@@ -21,6 +21,61 @@
             android:padding="8dp"
             tools:context=".ui.MainActivity">
 
+            <EditText
+                android:id="@+id/file_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_shape"
+                android:gravity="top|start"
+                android:hint="encrypted file name with ext"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/key_char_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/file_name" />
+
+            <EditText
+                android:id="@+id/key_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_shape"
+                android:gravity="top|start"
+                android:hint="Key"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@id/generate_key"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/key_char_count" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/generate_key"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:text="Generate"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/key_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/key_text" />
+
             <TextView
                 android:id="@+id/input_char_count"
                 android:layout_width="wrap_content"
@@ -32,7 +87,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/key_text" />
 
 
             <EditText
@@ -113,6 +168,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/decrypt_asset_button" />
+
             <EditText
                 android:id="@+id/output_text"
                 android:layout_width="match_parent"
@@ -141,21 +197,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/output_text" />
-
-
-            <EditText
-                android:id="@+id/key_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round_shape"
-                android:gravity="top|start"
-                android:hint="Key"
-                android:inputType="textMultiLine"
-                android:minLines="4"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/copyOutput" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

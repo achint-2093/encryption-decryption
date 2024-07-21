@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.techuntried.encryption.databinding.ActivityMainBinding
@@ -55,42 +56,64 @@ class MainActivity : AppCompatActivity() {
                 // No need to implement this method
             }
         })
+        binding.keyText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No need to implement this method
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Update the TextView with the character count
+                val charCount = s?.length ?: 0
+                binding.keyCharCount.text = "Character count: $charCount"
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // No need to implement this method
+            }
+        })
 
     }
 
     private fun setOnClickListener() {
-        val customKey = "your-256-bit-secret-key-goes-hee" // Replace with your actual key
-        val keyBytes = customKey.toByteArray(Charsets.UTF_8)
-        val secretKey = SecretKeySpec(keyBytes, "AES")
         binding.clearButton.setOnClickListener {
             binding.inputText.setText("")
             binding.outputText.setText("")
         }
 
         binding.encryptButton.setOnClickListener {
-            try {
-                val encryptionUtils = EncryptionUtils(secretKey)
-                val file = File(filesDir, "encrypted_file.txt")
-                val fileOutputStream = FileOutputStream(file)
-                val encryptedText =
-                    encryptionUtils.encrypt(getInput().encodeToByteArray(), fileOutputStream)
-                binding.outputText.setText(encryptedText.decodeToString())
-            } catch (e: Exception) {
-                binding.outputText.setText(e.message)
-            }
-
+            val customKey = getKey()
+            customKey?.let {
+                val keyBytes = customKey.toByteArray(Charsets.UTF_8)
+                val secretKey = SecretKeySpec(keyBytes, "AES")
+                try {
+                    val encryptionUtils = EncryptionUtils(secretKey)
+                    val file = File(filesDir, getFileName())
+                    val fileOutputStream = FileOutputStream(file)
+                    val encryptedText =
+                        encryptionUtils.encrypt(getInput().encodeToByteArray(), fileOutputStream)
+                    binding.outputText.setText(encryptedText.decodeToString())
+                } catch (e: Exception) {
+                    binding.outputText.setText(e.message)
+                }
+            }// Replace with your actual key
         }
 
         binding.decryptButton.setOnClickListener {
-            try {
-                val encryptionUtils = EncryptionUtils(secretKey)
-                val file = File(filesDir, "encrypted_file.txt")
-                val fileInputStream = FileInputStream(file)
-                val decryptedText = encryptionUtils.decrypt(fileInputStream)
-                binding.outputText.setText(decryptedText.decodeToString())
-            } catch (e: Exception) {
-                binding.outputText.setText(e.message)
+            val customKey = getKey()
+            customKey?.let {
+                try {
+                    val keyBytes = customKey.toByteArray(Charsets.UTF_8)
+                    val secretKey = SecretKeySpec(keyBytes, "AES")
+                    val encryptionUtils = EncryptionUtils(secretKey)
+                    val file = File(filesDir, getFileName())
+                    val fileInputStream = FileInputStream(file)
+                    val decryptedText = encryptionUtils.decrypt(fileInputStream)
+                    binding.outputText.setText(decryptedText.decodeToString())
+                } catch (e: Exception) {
+                    binding.outputText.setText(e.message)
+                }
             }
+
 
         }
 
@@ -101,15 +124,28 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.decryptAssetButton.setOnClickListener {
-            try {
-                val encryptionUtils = EncryptionUtils(secretKey)
-
-                val inputStream = assets.open("encrypted_file.txt")
-                val decryptedText = encryptionUtils.decrypt(inputStream)
-                binding.outputText.setText(decryptedText.decodeToString())
-            } catch (e: Exception) {
-                binding.outputText.setText(e.message)
+            val customKey = getKey()
+            customKey?.let {
+                try {
+                    val keyBytes = customKey.toByteArray(Charsets.UTF_8)
+                    val secretKey = SecretKeySpec(keyBytes, "AES")
+                    val encryptionUtils = EncryptionUtils(secretKey)
+                    val inputStream = assets.open("encrypted_file.json")
+                    val decryptedText = encryptionUtils.decrypt(inputStream)
+                    binding.outputText.setText(decryptedText.decodeToString())
+                } catch (e: Exception) {
+                    binding.outputText.setText(e.message)
+                }
             }
+        }
+
+        binding.generateKey.setOnClickListener {
+            val characters =
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_=+[{]}|;:',<.>/?`~"
+            val key = (1..32)
+                .map { characters.random() }
+                .joinToString("")
+            binding.keyText.setText(key)
         }
     }
 
@@ -117,7 +153,25 @@ class MainActivity : AppCompatActivity() {
         return binding.inputText.text.toString()
     }
 
-    private fun getKey(): String {
-        return binding.keyText.text.toString()
+    private fun getFileName(): String {
+        val fileName = binding.fileName.text.toString()
+        if (fileName.isNotEmpty()) {
+            return fileName
+        } else {
+            Toast.makeText(this, "using encrypted_file.txt", Toast.LENGTH_SHORT).show()
+            return "encrypted_file.txt"
+        }
     }
+
+    private fun getKey(): String? {
+        val key = binding.keyText.text.toString()
+        if (key.length == 32) {
+            return key
+        } else {
+            Toast.makeText(this, "key length must be 32", Toast.LENGTH_SHORT).show()
+            return null
+        }
+    }
+
+
 }
