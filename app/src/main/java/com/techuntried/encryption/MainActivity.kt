@@ -15,6 +15,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import javax.crypto.spec.SecretKeySpec
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     private fun setOnClickListener() {
         binding.fabUp.setOnClickListener {
             binding.scrollView.smoothScrollTo(0, 0)
@@ -93,6 +95,9 @@ class MainActivity : AppCompatActivity() {
         binding.clearButton.setOnClickListener {
             binding.inputText.setText("")
             binding.outputText.setText("")
+        }
+        binding.openLocation.setOnClickListener {
+            Toast.makeText(this, "not implemented", Toast.LENGTH_SHORT).show()
         }
 
         binding.encryptButton.setOnClickListener {
@@ -156,11 +161,19 @@ class MainActivity : AppCompatActivity() {
 
         binding.generateKey.setOnClickListener {
             val characters =
-                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_=+[{]}|;:',<.>/?`~"
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%^*()-_=+[{]}|;:,<.>/?~"
             val key = (1..32)
                 .map { characters.random() }
                 .joinToString("")
             binding.keyText.setText(key)
+        }
+        binding.clearKey.setOnClickListener {
+            binding.keyText.setText("")
+        }
+        binding.copyKey.setOnClickListener {
+            val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("Key", binding.keyText.text)
+            clipboardManager.setPrimaryClip(clipData)
         }
     }
 

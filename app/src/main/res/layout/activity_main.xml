@@ -41,6 +41,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/open_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:text="Open Location"
+                    android:textAllCaps="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/file_name" />
+
                 <TextView
                     android:id="@+id/key_char_count"
                     android:layout_width="wrap_content"
@@ -52,7 +62,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/file_name" />
+                    app:layout_constraintTop_toBottomOf="@id/open_location" />
 
                 <EditText
                     android:id="@+id/key_text"
@@ -60,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/round_shape"
+                    android:enabled="false"
                     android:gravity="top|start"
                     android:hint="Key"
                     android:inputType="textMultiLine"
@@ -70,17 +81,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/key_char_count" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <ImageView
                     android:id="@+id/generate_key"
-                    android:layout_width="wrap_content"
+                    android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="4dp"
-                    android:text="Generate"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:src="@drawable/generate"
                     app:layout_constraintBottom_toBottomOf="@id/key_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/key_text" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/clear_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:text="Clear"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/key_text" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/copy_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:text="Copy"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/clear_key"
+                    app:layout_constraintTop_toBottomOf="@id/key_text" />
+
+                <View
+                    android:id="@+id/key_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clear_key" />
 
                 <TextView
                     android:id="@+id/input_char_count"
@@ -93,7 +136,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/key_text" />
+                    app:layout_constraintTop_toBottomOf="@id/decrypt_asset_button" />
 
 
                 <EditText
@@ -119,11 +162,12 @@
                     android:text="Encrypt"
                     android:textAllCaps="false"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/clear_button"
                     app:layout_constraintEnd_toStartOf="@+id/decrypt_button"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@+id/clear_button"
-                    app:layout_constraintTop_toBottomOf="@id/input_text" />
+                    app:layout_constraintTop_toTopOf="@id/clear_button" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/clear_button"
@@ -134,10 +178,9 @@
                     android:textAllCaps="false"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/encrypt_button"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/input_text" />
+                    app:layout_constraintTop_toBottomOf="@id/key_line" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/decrypt_button"
@@ -147,8 +190,9 @@
                     android:text="Decrypt"
                     android:textAllCaps="false"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/clear_button"
                     app:layout_constraintStart_toEndOf="@+id/encrypt_button"
-                    app:layout_constraintTop_toBottomOf="@id/input_text" />
+                    app:layout_constraintTop_toTopOf="@id/clear_button" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/decrypt_asset_button"
@@ -173,7 +217,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/decrypt_asset_button" />
+                    app:layout_constraintTop_toBottomOf="@id/input_text" />
 
                 <EditText
                     android:id="@+id/output_text"
