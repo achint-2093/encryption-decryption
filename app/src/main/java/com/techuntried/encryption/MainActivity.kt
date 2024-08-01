@@ -2,23 +2,48 @@ package com.techuntried.encryption
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.techuntried.encryption.databinding.ActivityMainBinding
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
 import javax.crypto.spec.SecretKeySpec
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val selectFileCallback =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val intent = result.data
+                intent?.let {
+                    Toast.makeText(this, "not null", Toast.LENGTH_SHORT).show()
+                    val uri = it.data
+                    uri?.let { uriNotNull ->
+                        try {
+                            val content = readFileContent(uriNotNull)
+                            binding.inputText.setText(content)
+                        } catch (e: Exception) {
+                            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +109,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @Throws(IOException::class)
+    private fun readFileContent(uri: Uri): String {
+        val stringBuilder = StringBuilder()
+        val inputStream = contentResolver.openInputStream(uri)
+        val reader = BufferedReader(InputStreamReader(inputStream))
+
+        var line: String?
+        while ((reader.readLine().also { line = it }) != null) {
+            stringBuilder.append(line)
+            stringBuilder.append("\n") // Append newline character for each line
+        }
+
+        reader.close()
+        return stringBuilder.toString()
+    }
 
     private fun setOnClickListener() {
         binding.fabUp.setOnClickListener {
@@ -174,6 +214,22 @@ class MainActivity : AppCompatActivity() {
             val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText("Key", binding.keyText.text)
             clipboardManager.setPrimaryClip(clipData)
+        }
+        binding.pasteKey.setOnClickListener {
+            val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = clipboardManager.primaryClip
+            if (clipData != null && clipData.itemCount > 0) {
+                val pasteText = clipData.getItemAt(0).text.toString()
+                binding.keyText.setText(pasteText)
+            }
+        }
+
+        binding.selectFile.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.setType("*/*")
+            val mimeTypes = arrayOf("text/plain", "application/json")
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+            selectFileCallback.launch(intent)
         }
     }
 

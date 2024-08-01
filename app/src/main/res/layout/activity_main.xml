@@ -51,6 +51,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/file_name" />
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/select_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="Select file"
+                    android:textAllCaps="false"
+                    app:layout_constraintStart_toEndOf="@+id/open_location"
+                    app:layout_constraintTop_toBottomOf="@id/file_name" />
+
                 <TextView
                     android:id="@+id/key_char_count"
                     android:layout_width="wrap_content"
@@ -113,6 +122,17 @@
                     android:textAllCaps="false"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/clear_key"
+                    app:layout_constraintTop_toBottomOf="@id/key_text" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/paste_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:text="Paste"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/copy_key"
                     app:layout_constraintTop_toBottomOf="@id/key_text" />
 
                 <View
